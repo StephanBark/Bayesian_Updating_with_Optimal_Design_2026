@@ -1,0 +1,11 @@
+# R session artefacts
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Gurobi (commercial – do NOT commit)
+gurobi*.tar.gz
+gurobi.lic
+gurobi.lic/

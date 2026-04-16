@@ -1,0 +1,18 @@
+# Git
+.git
+.gitignore
+
+# R session artefacts
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Editor and devcontainer metadata
+.devcontainer/
+.vscode/
+
+# Docker meta
+docker-compose.yml
+.dockerignore

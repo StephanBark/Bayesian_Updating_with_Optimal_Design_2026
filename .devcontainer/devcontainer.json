@@ -1,0 +1,34 @@
+{
+  "name": "Bayesian Updating for METs - Dev Container",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": "..",
+    "target": "devcontainer",
+    "args": {
+      "GUROBI_VERSION": "13.0.1"
+    }
+  },
+  "remoteUser": "rstudio",
+  "overrideCommand": false,
+  "workspaceFolder": "/home/rstudio/project",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/rstudio/project,type=bind,consistency=cached",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "REditorSupport.r",
+        "RDebugger.r-debugger",
+        "mechatroner.rainbow-csv",
+        "tomoki1207.pdf",
+		    "ms-vscode-remote.vscode-remote-extensionpack"
+      ],
+      "settings": {
+        "r.rterm.linux": "/usr/local/bin/radian",
+        "r.bracketedPaste": true,
+        "r.plot.useHttpgd": false,
+        "r.lsp.diagnostics": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "postCreateCommand": "echo 'Dev container ready'"
+}

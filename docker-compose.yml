@@ -1,0 +1,19 @@
+services:
+  rstudio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rstudio
+      args:
+        GUROBI_VERSION: "13.0.1"
+    container_name: bayesian-updating-for-METs
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+    volumes:
+      # Live-mount project folder so edits are reflected immediately
+      - .:/home/rstudio/project
+      # Uncomment if you want Gurobi in the compose workflow.
+      # - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro
+    restart: unless-stopped
