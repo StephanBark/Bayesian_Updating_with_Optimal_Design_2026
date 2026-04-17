@@ -100,7 +100,7 @@ Docker.
 1. Clone the repository.
 
    ```bash
-   git clone https://github.com/<your-username>/Bayesian_Updating_with_Optimal_Design_2026.git
+   git clone https://github.com/StephanBark/Bayesian_Updating_with_Optimal_Design_2026.git
    cd Bayesian_Updating_with_Optimal_Design_2026
    ```
 
