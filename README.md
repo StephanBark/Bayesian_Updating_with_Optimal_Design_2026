@@ -1,15 +1,16 @@
 # A Bayesian Updating Framework for Long-term Multi-Environment Trial Data in Plant Breeding - Electronic Appendix (2026)
 
 This repository contains the R / Stan / Gurobi workflow used.
-Its purpose is reproducabilty of our paper content as well as a generalized pipeline 
-to play around with Bayesian LMM model specification to generate in depth HTML reports for inspection.
+Its purpose is reproducabilty of our paper content as well as the demonstration of our generalized 
+Bayesian updating pipeline for MET data to play around with. 
+In-depth HTML reports can be generated automatically to inspect certain model specifiacton results.
 
-Author and maintainer of this repository is Stephan Bark. Feel free to contact me!
+Author and maintainer of this repository is Stephan Bark. Feel free to contact me for questions/feedback!
 
-It supports three working styles:
+Three working styles are supported:
 
 1) Basic git pulls and local work in the repository via R / RStudio / VS Code ect.
-2) As a VS Code Dev Container for editing and running the R workflow in VS Code.
+2) With VS Code + Dev Container for editing and running the R workflow in our container.
 3) As a separate Docker Compose service for RStudio Server in the browser.
 
 The analysis-ready pre-processed MET data file `0 Data/yield_winter_medium.csv` is included in the
@@ -32,7 +33,8 @@ However, note that genotype names are anonymized!
 ├── read_in_data.R             -> Main entry point after working style is defined
 ├── 0 Data/                    -> Analysis-ready input data
 ├── 1 Functions/               -> User R functions to work with
-├── 2 Descriptive Analysis/    -> Just a full Rahman et al. 2023 data describtive plot: NOTE no full data access through here!
+├── 2 Descriptive Analysis/    -> Just a full Rahman et al. 2023 data describtive plot:
+                                  NOTE no full data access through here!
 ├── 3 Frequentist Framework/   -> asreml-based mixed-model workflow
 └── 4 Bayesian Framework/      -> rstan-based sequential Bayesian updating workflow
 ```
@@ -52,7 +54,7 @@ and two reusable helper functions from `1 Functions/`.
    `3 Frequentist Framework/Frequentist LMM and Optimal Design Analysis.R`.
 3. Use `my_residuals()` from `1 Functions/My Residuals Function.R` to extract
    marginal and conditional residuals for assumption checks.
-4. Inspect the residual plots.
+4. Generate and inspect the residual plots.
 5. Use `grid_design()` from `1 Functions/Grid of Optimal Design Function.R` to
    translate fitted variance components into approximate and exact optimal
    design allocations.
@@ -70,10 +72,10 @@ in `4 Bayesian Framework/` and uses three reusable functions from `1 Functions/`
 3. Render an HTML summary with
    `render_fit_general_multiple_cycles_report()` from
    `1 Functions/Render Bayesian Cycle Report Function.R`.
-4. Reproduce exact paper Bayesian histogram figures from our paper 
-   following the scribt.
-5. Propagate posterior uncertainty into design recommendations with
-   `grid_bayes_design()` from
+4. Reproduce exact Bayesian histogram figures from our paper 
+   from the scribt.
+5. Propagate posterior uncertainty into approximate design
+   calculations with `grid_bayes_design()` from
    `1 Functions/Grid of Optimal Bayes Design Function.R`.
 
 
@@ -89,12 +91,14 @@ in `4 Bayesian Framework/` and uses three reusable functions from `1 Functions/`
 
 ### Optional License
 
-`Gurobi` -> Required for the `od_MISOCP()`-based optimal design workflows used in this repository -> Required for `grid_design()` and `grid_bayes_design()` R-functions.
-`asreml` -> Frequentist mixed-model fitting in the publication scripts -> Required for the Frequentist Pipeline.
+`Gurobi` -> Required for the `od_MISOCP()`-based optimal design workflows used.
+         -> Required for `grid_design()` and `grid_bayes_design()` R-functions.
+`asreml` -> Frequentist mixed-model fitting in the R scripts.
+         -> Required for the Frequentist Pipeline.
 
 ## Option 1 - Local Setup
 
-Use this route if you want to work directly in RStudio or VS Code without
+Use this route if you want to work directly in RStudio, VS Code etc. without
 Docker.
 
 1. Clone the repository.
@@ -132,13 +136,14 @@ Docker.
 
 4. Run `read_in_data.R`.
 
-5. Execute the scripts in `3 Frequentist Framework/` or `4 Bayesian Framework/`.
+5. Execute the components of the scripts in `3 Frequentist Framework/` or `4 Bayesian Framework/`.
 
-## Option 2 - VS Code Dev Container
+
+## Option 2 - VS Code + Dev Container
 
 Use this route if you want the fully prepared environment inside VS Code.
 
-The Dev Container is separated from the RStudio Server setup.
+The Dev Container is separated from the RStudio Server setup in option 3 below.
 It does not start RStudio Server, does not forward port 8787, and is not meant to
 manage Docker from inside the container.
 
@@ -148,14 +153,6 @@ manage Docker from inside the container.
 4. Choose **Dev Containers: Reopen in Container**.
 5. Wait for the first image build, then work inside the container as usual.
 
-Notes:
-
-- If the Docker extension previously showed `Failed to connect. Is Docker installed?`,
-   that was likely because the extension was running in the remote Dev Container,
-   where `docker` is not available.
-- Use the Dev Container for code editing, package installation, and running the
-   R scripts in VS Code.
-- Use Docker Compose separately when you want an RStudio Server session.
 
 ## Option 3 - Docker Compose + RStudio Server
 
@@ -164,15 +161,15 @@ Code inside the container.
 
 This workflow is kept separate from the Dev Container on purpose.
 
-The base compose workflow works without Gurobi.
+1. Execute the following in the comment line:
 
 ```bash
 docker compose up --build -d
 ```
 
-Then open `http://localhost:8787` in your browser.
+2. Wait for the first image build and open `http://localhost:8787` in your browser.
 
-To stop the service:
+3. To stop the service execute:
 
 ```bash
 docker compose down
@@ -186,9 +183,9 @@ If you want Gurobi inside the Docker workflows:
    `gurobi13.0.1_linux64.tar.gz`, in the project root.
 2. Place your `gurobi.lic` licence file in the project root.
 3. Uncomment the Gurobi licence mount in `docker-compose.yml`.
-4. Rebuild the image.
+4. Rebuild the image of option 2 or 3 above.
 
-If you skip these steps, the image still builds, but the `od_MISOCP()`-based
+If you skip these steps, the images still build, but the `od_MISOCP()`-based
 optimal-design scripts in this repository will not run.
 
 ### Optional asreml in Docker
